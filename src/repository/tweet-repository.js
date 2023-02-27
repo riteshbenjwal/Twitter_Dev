@@ -16,6 +16,7 @@ class TweetRepository {
       return tweet;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 
