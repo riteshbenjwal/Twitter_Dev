@@ -37,9 +37,19 @@ describe("Get all tweet tests", () => {
     };
     const tweetsArray = [
       { ...data, createdAt: new Date(), updatedAt: new Date() },
+      { ...data, createdAt: new Date(), updatedAt: new Date() },
     ];
+
+    const findResponse = {
+      tweetsArray,
+    };
+    findResponse.limit = jest.fn((limit) =>
+      findResponse.tweetsArray.slice(0, limit)
+    );
+    findResponse.skip = jest.fn((offset) => findResponse);
+
     const spy = jest.spyOn(Tweet, "find").mockImplementation(() => {
-      return [{ ...data, createdAt: new Date(), updatedAt: new Date() }];
+      return findResponse;
     });
     const tweetRepository = new TweetRepository();
     const tweets = await tweetRepository.getAll(0, 2);
